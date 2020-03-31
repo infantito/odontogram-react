@@ -22,32 +22,32 @@ const Odontogram = props => {
           & > * {
             width: 100%;
 
-            &:not(:first-child):not(:last-child) {
-              &:nth-child(even) {
+            &:not(:first-of-type):not(:last-of-type) {
+              &:nth-of-type(even) {
                 border-top: 1.5px solid #ccc;
               }
 
-              &:nth-child(odd) {
+              &:nth-of-type(odd) {
                 border-bottom: 1.5px solid #ccc;
               }
             }
 
-            &:nth-child(even) {
-              & > *:first-child {
+            &:nth-of-type(even) {
+              & > *:first-of-type {
                 border-right: 1.5px solid #ccc;
               }
 
-              & > *:last-child {
+              & > *:last-of-type {
                 border-left: 1.5px solid #ccc;
               }
             }
 
-            &:nth-child(odd) {
-              & > *:first-child {
+            &:nth-of-type(odd) {
+              & > *:first-of-type {
                 border-right: 1.5px solid #ccc;
               }
 
-              & > *:last-child {
+              & > *:last-of-type {
                 border-left: 1.5px solid #ccc;
               }
             }
@@ -76,10 +76,10 @@ const Odontogram = props => {
                       : null
                   }
                   className={css`
-                    font-size: 1rem;
+                    font-size: 0.75rem;
                     font-weight: 600;
                     margin: 0 auto;
-                    padding: 1rem;
+                    padding: 0.275rem;
                   `}
                 />
               ))}
