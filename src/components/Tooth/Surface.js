@@ -3,7 +3,7 @@ import React from 'react';
 import { css, jsx } from '@emotion/core';
 
 function Surface(props) {
-  const { id, status, value, surface, points } = props;
+  const { status, value, surface, points, handleHovering } = props;
 
   return (
     <polygon
@@ -11,6 +11,8 @@ function Surface(props) {
       status={status}
       value={value}
       data-surface={surface}
+      onMouseOver={handleHovering(true)}
+      onMouseOut={handleHovering(false)}
       css={css`
         fill-opacity: 0;
         stroke: black;
@@ -23,4 +25,4 @@ function Surface(props) {
   );
 }
 
-export default Surface;
+export default React.memo(Surface);

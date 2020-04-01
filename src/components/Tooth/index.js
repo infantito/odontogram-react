@@ -1,5 +1,7 @@
 import React from 'react';
-import Surface from './Surface';
+import Surface from '/components/Tooth/Surface';
+import SURFACES from '/constants/surfaces';
+
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -19,7 +21,8 @@ const Nomenclature = ({ nomenclature, x, y }) => (
 );
 
 const Tooth = props => {
-  const { id, tooth, quadrant, position } = props;
+  const { id, tooth, quadrant, position, handleHovering } = props;
+  const quadrantKeys = quadrant.name.split('_');
 
   return (
     <div
@@ -38,16 +41,20 @@ const Tooth = props => {
         viewBox="5 5 50 50"
         id={id}
         data-name={tooth.name}
-        data-quadrant={quadrant}
+        data-quadrant={quadrantKeys[quadrantKeys.length - 1]}
+        data-nomenclature={tooth.nomenclature}
         css={css`
           cursor: pointer;
         `}
       >
-        <Surface points="10,10 50,10 40,20 20,20" surface="lingual" />
-        <Surface points="10,50 20,40 20,20 10,10" surface="distal" />
-        <Surface points="20,20 40,20 40,40 20,40" surface="incisal,occlusal" />
-        <Surface points="50,10 50,50 40,40 40,20" surface="mesial" />
-        <Surface points="50,50 10,50 20,40 40,40" surface="facial" />
+        {SURFACES.map((surface, index) => (
+          <Surface
+            key={index}
+            points={surface.points}
+            surface={surface.flag}
+            handleHovering={handleHovering}
+          />
+        ))}
       </svg>
       {position && (
         <Nomenclature nomenclature={tooth.nomenclature} x={20} y={2.5} />
@@ -56,4 +63,4 @@ const Tooth = props => {
   );
 };
 
-export default Tooth;
+export default React.memo(Tooth);

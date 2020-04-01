@@ -6,7 +6,7 @@ import { ODONTOGRAM_TYPES } from '/constants/odontogram';
 import QUADRANTS from '/constants/quadrants';
 
 const App = () => {
-  const handleHovering = (e, hover) => {
+  const handleHovering = hover => e => {
     const { target } = e;
     const dataset = target.parentNode.dataset;
     const tooth = hover

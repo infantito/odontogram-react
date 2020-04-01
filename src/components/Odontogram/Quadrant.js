@@ -1,9 +1,16 @@
 import React, { Fragment } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import Tooth from '../Tooth';
+import Tooth from '/components/Tooth';
 
-const Quadrant = ({ teeth, quadrant, position, name, className }) => {
+const Quadrant = ({
+  teeth,
+  quadrant,
+  position,
+  name,
+  className,
+  handleHovering,
+}) => {
   return (
     <div
       css={css`
@@ -20,6 +27,7 @@ const Quadrant = ({ teeth, quadrant, position, name, className }) => {
           tooth={tooth}
           position={position}
           mod={index % source.length}
+          handleHovering={handleHovering}
         />
       ))}
       {name && position && <p css={className}>{name}</p>}
