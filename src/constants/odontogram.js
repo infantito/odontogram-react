@@ -1,10 +1,11 @@
-import QUADRANTS from './quadrants';
-import TEETH from './teethTypes';
+import QUADRANTS from '/constants/quadrants';
+import TEETH from '/constants/teethTypes';
 
+// MIXED
 const ODONTOGRAM_TYPES = [
-  // ADULT
+  // ADULT / PERMANENT
   32,
-  // CHILDISH
+  // CHILDISH / DECIDUOUS
   20,
 ];
 const TEETH_KEYS = Object.keys(TEETH);
@@ -29,7 +30,7 @@ const getQuadrant = (masterIndex, parentIndex, quadrantsTotalPerSide) => (
 
     teethByQuadrant.forEach(_ => {
       const tooth = {
-        tooth: toothName,
+        name: toothName,
         nomenclature: tens + (teeth.length + 1),
       };
 
