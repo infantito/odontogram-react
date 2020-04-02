@@ -4,9 +4,9 @@ import TEETH from '/constants/teethTypes';
 // MIXED
 const ODONTOGRAM_TYPES = [
   // ADULT / PERMANENT
-  32,
+  { title: 'Permanent', amount: 32 },
   // CHILDISH / DECIDUOUS
-  20,
+  { title: 'Deciduous', amount: 20 },
 ];
 const TEETH_KEYS = Object.keys(TEETH);
 

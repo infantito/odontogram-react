@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import Option from '/components/Control/Option';
+import Item from '/components/Control/Item';
 
-const Tab = ({ children, tabs, selected, handleTab }) => {
+const Tab = ({ children, tabs, selected, handleTab, maxWidth = 1024 }) => {
   return (
     <div
       css={css`
-        max-width: 640px;
+        max-width: ${maxWidth}px;
         width: 100%;
         padding: 1rem 0.75rem;
       `}
@@ -28,13 +28,14 @@ const Tab = ({ children, tabs, selected, handleTab }) => {
           margin: 0 auto;
         `}
       >
-        {tabs.map((tab, key) => (
-          <Option
+        {tabs.map((tab, key, source) => (
+          <Item
             key={key}
             tab={tab}
             index={key}
             selected={selected}
             handleTab={handleTab}
+            size={source.length}
           />
         ))}
       </ul>

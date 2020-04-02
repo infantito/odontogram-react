@@ -2,10 +2,23 @@ import React, { Fragment } from 'react';
 import { Global, css } from '@emotion/core';
 import Odontogram from '/components/Odontogram';
 import Management from '/components/Management';
+import Tab from '/components/Control/Tab';
 import { ODONTOGRAM_TYPES } from '/constants/odontogram';
 import QUADRANTS from '/constants/quadrants';
+import { formatJoinId } from '/constants/utils';
+
+const odontogramTypes = formatJoinId(ODONTOGRAM_TYPES, 'amount', [
+  { title: 'Mixed', amount: 0 },
+]);
 
 const App = () => {
+  const [currentType, setCurrentType] = React.useState(
+    odontogramTypes[odontogramTypes.length - 1],
+  );
+  const [tooth, setTooth] = React.useState({});
+  const handleTab = ({ target: { parentNode } }) => {
+    setCurrentType(odontogramTypes[+parentNode.value]);
+  };
   const handleHovering = hover => e => {
     const { target } = e;
     const dataset = target.parentNode.dataset;
@@ -20,7 +33,6 @@ const App = () => {
 
     setTooth(tooth);
   };
-  const [tooth, setTooth] = React.useState({});
 
   return (
     <Fragment>
@@ -38,6 +50,7 @@ const App = () => {
             background-color: #efefef;
             height: 100vh;
             width: 100vw;
+            overflow: hidden;
           }
           body * {
             box-sizing: border-box;
@@ -54,12 +67,15 @@ const App = () => {
         `}
       />
       <Management tooth={tooth} />
-      <Odontogram
-        types={ODONTOGRAM_TYPES}
-        quadrants={QUADRANTS}
-        isDescriptive={true}
-        handleHovering={handleHovering}
-      />
+      <Tab tabs={odontogramTypes} selected={currentType} handleTab={handleTab}>
+        <Odontogram
+          types={ODONTOGRAM_TYPES}
+          currentType={currentType}
+          quadrants={QUADRANTS}
+          isDescriptive={true}
+          handleHovering={handleHovering}
+        />
+      </Tab>
     </Fragment>
   );
 };

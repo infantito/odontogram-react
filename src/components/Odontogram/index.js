@@ -4,6 +4,7 @@ import { css, jsx } from '@emotion/core';
 import Quadrant from '/components/Odontogram/Quadrant';
 import odontogram from '/constants/odontogram';
 import denture from '/constants/quadrants';
+import { predicateTotal } from '/constants/utils';
 
 const Odontogram = props => {
   const typesLength = props.types.length;
@@ -20,6 +21,7 @@ const Odontogram = props => {
             align-items: center;
             font-size: 0;
             text-align: center;
+            padding: 1rem;
             & > * {
               width: 100%;
 
@@ -57,11 +59,31 @@ const Odontogram = props => {
         >
           {dentures.reduce((quadrants, teeth, index, source) => {
             const mod = index % typesLength;
+            const isDisabled = predicateTotal(
+              props.currentType.id,
+              teeth,
+              typesLength,
+            );
 
             quadrants.splice(
               ~mod,
               0,
-              <div key={index}>
+              <fieldset
+                key={index}
+                css={css`
+                  border: 0;
+                  margin: 0;
+                  padding: 0;
+
+                  &:disabled {
+                    polygon {
+                      fill: #ccc;
+                      fill-opacity: 1;
+                    }
+                  }
+                `}
+                disabled={isDisabled}
+              >
                 {teeth.map((quadrant, key) => (
                   <Quadrant
                     teeth={quadrant}
@@ -85,7 +107,7 @@ const Odontogram = props => {
                     `}
                   />
                 ))}
-              </div>,
+              </fieldset>,
             );
 
             return quadrants;

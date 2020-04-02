@@ -2,21 +2,24 @@ import React from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const Option = props => {
-  const { tab, selected, index, handleTab } = props;
+const Item = props => {
+  const { tab, selected, index, handleTab, size } = props;
 
   return (
     <li
       css={css`
         border-bottom: 2px solid #888;
-        ${selected.id === tab.id
-          ? `
+        ${
+          selected.id === tab.id
+            ? `
             background-color: rgba(0, 188, 212, 0.25);
             border-bottom-color: #03a9f4;
             color: #03a9f4;
             text-shadow: 0.5px 0.5px #888;
                 `
-          : ''}
+            : ''
+        }
+        width: ${100 / size}%;
 
         &:not(:first-of-type):not(:last-of-type) {
           border-left: 1.5px solid #888;
@@ -56,4 +59,4 @@ const Option = props => {
   );
 };
 
-export default Option;
+export default Item;
