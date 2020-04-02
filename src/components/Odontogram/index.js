@@ -2,27 +2,15 @@ import React, { Fragment } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import Quadrant from '/components/Odontogram/Quadrant';
-import Status from '/components/Management/Status';
 import odontogram from '/constants/odontogram';
 import denture from '/constants/quadrants';
 
 const Odontogram = props => {
-  const [value, setValue] = React.useState(null);
   const typesLength = props.types.length;
   const dentures = props.types.map((_, master) => odontogram(master)).flat();
-  const handleChange = ({ target }) => {
-    setValue(target.value);
-  };
 
   return (
     <Fragment>
-      <article
-        css={css`
-          padding: 1rem;
-        `}
-      >
-        <Status handleChange={handleChange} />
-      </article>
       <article className="odontogram">
         <section
           css={css`
