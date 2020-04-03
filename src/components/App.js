@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Global, css } from '@emotion/core';
 import Odontogram from '/components/Odontogram';
 import Management from '/components/Management';
+import { OdontogramContextProvider } from '/components/Management/OdontogramContext';
 import Tab from '/components/Control/Tab';
 import { ODONTOGRAM_TYPES } from '/constants/odontogram';
 import QUADRANTS from '/constants/quadrants';
@@ -12,30 +13,8 @@ const odontogramTypes = formatJoinId(ODONTOGRAM_TYPES, 'amount', [
 ]);
 
 const App = () => {
-  const [currentType, setCurrentType] = React.useState(
-    odontogramTypes[odontogramTypes.length - 1],
-  );
-  const [tooth, setTooth] = React.useState({});
-  const handleTab = ({ target: { parentNode } }) => {
-    setCurrentType(odontogramTypes[+parentNode.value]);
-  };
-  const handleHovering = hover => e => {
-    const { target } = e;
-    const dataset = target.parentNode.dataset;
-    const tooth = hover
-      ? {
-          name: dataset.name,
-          nomenclature: dataset.nomenclature,
-          quadrant: dataset.quadrant,
-          surface: target.dataset.surface,
-        }
-      : {};
-
-    setTooth(tooth);
-  };
-
   return (
-    <Fragment>
+    <OdontogramContextProvider>
       <Global
         styles={css`
           html {
@@ -66,17 +45,18 @@ const App = () => {
           }
         `}
       />
-      <Management tooth={tooth} />
-      <Tab tabs={odontogramTypes} selected={currentType} handleTab={handleTab}>
-        <Odontogram
-          types={ODONTOGRAM_TYPES}
-          currentType={currentType}
-          quadrants={QUADRANTS}
-          isDescriptive={true}
-          handleHovering={handleHovering}
-        />
+      <Management />
+      <Tab tabs={odontogramTypes} keyName="odontogram">
+        {selected => (
+          <Odontogram
+            types={ODONTOGRAM_TYPES}
+            currentType={selected}
+            quadrants={QUADRANTS}
+            isDescriptive={true}
+          />
+        )}
       </Tab>
-    </Fragment>
+    </OdontogramContextProvider>
   );
 };
 export default App;

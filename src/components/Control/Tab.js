@@ -1,9 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import Item from '/components/Control/Item';
+import OdontogramContext from '/components/Management/OdontogramContext';
 
-const Tab = ({ children, tabs, selected, handleTab, maxWidth = 1024 }) => {
+const Tab = ({ children, tabs, keyName, maxWidth = 1024 }) => {
+  const [state, dispatch] = React.useContext(OdontogramContext);
+  const handleTab = ({ target: { parentNode } }) => {
+    dispatch({ [keyName]: +parentNode.value, type: keyName });
+  };
+  const selected = tabs[state[keyName]];
+
   return (
     <div
       css={css`
@@ -48,7 +55,7 @@ const Tab = ({ children, tabs, selected, handleTab, maxWidth = 1024 }) => {
           border-top-right-radius: 0;
         `}
       >
-        {children}
+        {typeof children === 'function' ? children(selected) : children}
       </div>
     </div>
   );

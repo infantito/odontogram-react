@@ -17,12 +17,18 @@ export const formatJoinId = (collection, key, initial = []) =>
   }, initial);
 
 export const predicateTotal = (total, source, multiplier) => {
-  return (
-    total ===
+  const value =
     source.reduce((value, item) => {
       const amount = value + item.length;
       return amount;
-    }, 0) *
-      multiplier
-  );
+    }, 0) * multiplier;
+
+  return total === void 0 ? false : total !== value;
+};
+
+export const isHexColor = color => {
+  const hex = color.includes('#') ? color.substr(1) : color;
+  const num = parseInt(hex, 16);
+
+  return num.toString(16) === hex;
 };

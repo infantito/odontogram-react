@@ -1,5 +1,6 @@
 import React from 'react';
 import Surface from '/components/Tooth/Surface';
+import OdontogramContext from '/components/Management/OdontogramContext';
 import SURFACES from '/constants/surfaces';
 
 /** @jsx jsx */
@@ -21,8 +22,26 @@ const Nomenclature = ({ nomenclature, x, y }) => (
 );
 
 const Tooth = props => {
-  const { id, tooth, quadrant, position, handleHovering } = props;
+  const { id, quadrant, position, tooth } = props;
   const quadrantKeys = quadrant.name.split('_');
+  const [, dispatch] = React.useContext(OdontogramContext);
+  const handleHovering = React.useCallback(
+    hover => e => {
+      const { target } = e;
+      const dataset = target.parentNode.dataset;
+      const tooth = hover
+        ? {
+            name: dataset.name,
+            nomenclature: dataset.nomenclature,
+            quadrant: dataset.quadrant,
+            surface: target.dataset.surface,
+          }
+        : {};
+
+      dispatch({ tooth, type: 'tooth' });
+    },
+    [],
+  );
 
   return (
     <div

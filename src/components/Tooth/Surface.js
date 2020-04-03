@@ -4,6 +4,8 @@ import { css, jsx } from '@emotion/core';
 
 function Surface(props) {
   const { status, value, surface, points, handleHovering } = props;
+  const handleMouseOver = React.useMemo(_ => handleHovering(true), []);
+  const handleMouseOut = React.useMemo(_ => handleHovering(false), []);
 
   return (
     <polygon
@@ -11,8 +13,8 @@ function Surface(props) {
       status={status}
       value={value}
       data-surface={surface}
-      onMouseOver={handleHovering(true)}
-      onMouseOut={handleHovering(false)}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       css={css`
         fill-opacity: 0;
         stroke: black;

@@ -3,12 +3,13 @@ import React from 'react';
 import { css, jsx } from '@emotion/core';
 import Select from '/components/Control/Select';
 import Tab from '/components/Control/Tab';
+import OdontogramContext from '/components/Management/OdontogramContext';
 import OPERATIONS from '/constants/operations';
-import STATUS from '/constants/status';
+import DIAGNOSIS from '/constants/diagnosis';
 import TREATMENTS from '/constants/treatments';
 
 const collections = [
-  STATUS.concat(TREATMENTS.filter(treatment => treatment.status)),
+  DIAGNOSIS.concat(TREATMENTS.filter(treatment => treatment.diagnosis)),
   TREATMENTS,
   [],
 ];
@@ -17,24 +18,8 @@ const tabs = OPERATIONS.map((operation, index) => ({
   data: collections[index],
 }));
 
-const initialState = {
-  tab: 0,
-  value: '',
-};
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'value':
-      return { ...state, value: action.value };
-    case 'tab':
-      return { ...state, value: '', tab: action.tab };
-    default:
-      throw new Error(`That action type isn't supported.`);
-  }
-};
-
 const Management = props => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-
+  const [state, dispatch] = React.useContext(OdontogramContext);
   const {
     tooth: {
       name = 'xxxx',
@@ -42,13 +27,13 @@ const Management = props => {
       quadrant = 'X',
       surface = 'X',
     },
-  } = props;
-  const handleTab = ({ target: { parentNode } }) => {
-    dispatch({ tab: +parentNode.value, type: 'tab' });
-  };
+  } = state;
 
-  const handleChange = e => {
-    dispatch({ value: e.target.value, type: 'value' });
+  const handleChange = ({ target }) => {
+    const status = (tabs[state.tab].data || []).find(
+      item => item.name === target.value,
+    );
+    dispatch({ status, type: 'status' });
   };
 
   return (
@@ -78,11 +63,11 @@ const Management = props => {
           `}
         >{`Q${quadrant[0]}-${nomenclature}-${surface}`}</span>
       </h4>
-      <Tab tabs={tabs} handleTab={handleTab} selected={tabs[state.tab]}>
+      <Tab tabs={tabs} keyName="tab">
         <Select
           id="types"
           data={collections[state.tab]}
-          value={state.value}
+          selected={state.status}
           handleChange={handleChange}
           placeholder="Choose an option"
         />

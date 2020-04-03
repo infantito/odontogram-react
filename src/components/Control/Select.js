@@ -11,7 +11,7 @@ const Option = ({ value, content, ...rest }) => {
 };
 
 const Select = props => {
-  const { id, name, data, value, placeholder, handleChange } = props;
+  const { id, name, data, selected, placeholder, handleChange } = props;
 
   return (
     <div
@@ -24,7 +24,7 @@ const Select = props => {
       <select
         id={`select-${id}`}
         name={name}
-        value={value}
+        value={selected.value}
         css={css`
           display: inline-block;
           margin: 0;

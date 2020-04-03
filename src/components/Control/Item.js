@@ -12,11 +12,11 @@ const Item = props => {
         ${
           selected.id === tab.id
             ? `
-            background-color: rgba(0, 188, 212, 0.25);
-            border-bottom-color: #03a9f4;
-            color: #03a9f4;
-            text-shadow: 0.5px 0.5px #888;
-                `
+              background-color: rgba(0, 188, 212, 0.25);
+              border-bottom-color: #03a9f4;
+              color: #03a9f4;
+              text-shadow: 0.5px 0.5px #888;
+            `
             : ''
         }
         width: ${100 / size}%;
@@ -47,7 +47,7 @@ const Item = props => {
           css={css`
             display: block;
             font-size: 0.75rem;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             cursor: pointer;
             user-select: none;
           `}
@@ -59,4 +59,4 @@ const Item = props => {
   );
 };
 
-export default Item;
+export default React.memo(Item);
