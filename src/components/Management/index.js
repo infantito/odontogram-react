@@ -30,12 +30,15 @@ const Management = props => {
     },
   } = state;
 
-  const handleChange = useCallback(({ target }) => {
-    const status = (tabs[state.tab].data || []).find(
-      item => item.name === target.value,
-    );
-    dispatch({ status, type: 'status' });
-  }, []);
+  const handleChange = useCallback(
+    ({ target }) => {
+      const status = (tabs[state.tab].data || []).find(
+        item => item.name === target.value,
+      );
+      dispatch({ status, type: 'status' });
+    },
+    [state.tab],
+  );
 
   const handleClear = useCallback(_ => dispatch({ type: 'clear' }));
 

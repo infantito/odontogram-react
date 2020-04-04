@@ -2,7 +2,7 @@ export default [
   {
     name: 'Decay/Caries',
     surface: true,
-    color: '#ff0000',
+    color: '#d2691e',
   },
   {
     name: 'Fissure',
@@ -27,7 +27,7 @@ export default [
   {
     name: 'Broken',
     surface: false,
-    color: '#a1995c',
+    color: '',
   },
   {
     name: 'Mobility',

@@ -25,9 +25,9 @@ const Quadrant = ({ teeth, quadrant, position, name, className }) => {
         padding: ${!name ? '.525rem' : '.125rem .525rem'};
       `}
     >
-      {!position && name && <p css={className}>{name}</p>}
+      {!position && name ? <p css={className}>{name}</p> : void 0}
       {teeth.map(getTooth)}
-      {position && name && <p css={className}>{name}</p>}
+      {position && name ? <p css={className}>{name}</p> : void 0}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useContext, useCallback, memo } from 'react';
 import Surface from '/components/Tooth/Surface';
 import OdontogramContext from '/components/Management/OdontogramContext';
+import STATUS from '/components/Status';
 import SURFACES from '/constants/surfaces';
 
 /** @jsx jsx */
@@ -11,11 +12,14 @@ const SURFACES_KEY = SURFACES.reduce((keyName, current) => {
   return keyName;
 }, '');
 
-const getColorWhenIsTooth = ({ odontogram, tooth, surface }) => {
+const getStatus = ({ odontogram, tooth, surface }) => {
   const current = odontogram[tooth.nomenclature] || {};
   const face = current[surface.flag] || {};
 
-  return face.color;
+  return {
+    color: face.color,
+    Drawing: STATUS[(current[SURFACES_KEY] || {}).status],
+  };
 };
 
 const Nomenclature = ({ nomenclature, x, y }) => (
@@ -61,13 +65,21 @@ const Tooth = props => {
         const odontogram = state.odontogram;
         odontogram[tooth.nomenclature] = odontogram[tooth.nomenclature] || {};
         const keyName = status.surface ? tooth.surface : SURFACES_KEY;
-
-        odontogram[tooth.nomenclature][keyName] = {
+        const value = {
           tooth: tooth.name,
           quadrant: tooth.quadrant,
           status: status.name,
           color: status.color,
         };
+
+        if (keyName === SURFACES_KEY) {
+          odontogram[tooth.nomenclature] = {
+            [keyName]: value,
+          };
+        } else {
+          delete odontogram[tooth.nomenclature][SURFACES_KEY];
+          odontogram[tooth.nomenclature][keyName] = value;
+        }
 
         dispatch({ odontogram, type: 'odontogram' });
       } else {
@@ -85,8 +97,10 @@ const Tooth = props => {
         position: relative;
       `}
     >
-      {!position && (
+      {!position ? (
         <Nomenclature nomenclature={tooth.nomenclature} x={20} y={70} />
+      ) : (
+        void 0
       )}
       <svg
         height="50"
@@ -101,7 +115,7 @@ const Tooth = props => {
         `}
       >
         {SURFACES.map((surface, index) => {
-          const color = getColorWhenIsTooth({
+          const { color, Drawing } = getStatus({
             odontogram: state.odontogram,
             tooth,
             surface,
@@ -115,12 +129,16 @@ const Tooth = props => {
               handleHovering={handleHovering}
               handleClick={handleClick}
               color={color}
-            />
+            >
+              {!color && Drawing && index === 0 ? <Drawing /> : null}
+            </Surface>
           );
         })}
       </svg>
-      {position && (
+      {position ? (
         <Nomenclature nomenclature={tooth.nomenclature} x={20} y={2.5} />
+      ) : (
+        void 0
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -8,23 +8,26 @@ function Surface(props) {
   const handleMouseOut = React.useMemo(_ => handleHovering(false), []);
 
   return (
-    <polygon
-      points={points}
-      data-surface={surface}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-      onClick={handleClick}
-      css={css`
-        fill-opacity: 1;
-        stroke: black;
-        stroke-width: 1px;
-        fill: ${color || '#fff'};
+    <Fragment>
+      {props.children}
+      <polygon
+        points={points}
+        data-surface={surface}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+        onClick={handleClick}
+        css={css`
+          ${color ? '' : 'fill-opacity: 0'};
+          stroke: black;
+          stroke-width: 1px;
+          ${color ? `fill: ${color}` : ''};
 
-        &:hover {
-          fill-opacity: 0.15;
-        }
-      `}
-    />
+          &:hover {
+            fill-opacity: 0.15;
+          }
+        `}
+      />
+    </Fragment>
   );
 }
 

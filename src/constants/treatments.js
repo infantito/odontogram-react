@@ -3,13 +3,13 @@ export default [
     name: 'Amalgam',
     surface: true,
     diagnosis: true,
-    color: '',
+    color: '#f3db78',
   },
   {
     name: 'Crown',
     surface: false,
     diagnosis: true,
-    color: '#f3db78',
+    color: '',
   },
   {
     name: 'Bridge',
@@ -45,7 +45,7 @@ export default [
     name: 'Extraction',
     surface: false,
     diagnosis: false,
-    color: '#ff0000',
+    color: '',
   },
   {
     name: 'Veneer',
@@ -56,6 +56,6 @@ export default [
   {
     name: 'Sealant',
     surface: true,
-    color: '#ffa500',
+    color: '#ff0000',
   },
 ];
