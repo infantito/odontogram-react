@@ -3,24 +3,25 @@ import React from 'react';
 import { css, jsx } from '@emotion/core';
 
 function Surface(props) {
-  const { status, value, surface, points, handleHovering } = props;
+  const { surface, points, handleHovering, handleClick, color } = props;
   const handleMouseOver = React.useMemo(_ => handleHovering(true), []);
   const handleMouseOut = React.useMemo(_ => handleHovering(false), []);
 
   return (
     <polygon
       points={points}
-      status={status}
-      value={value}
       data-surface={surface}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      onClick={handleClick}
       css={css`
-        fill-opacity: 0;
+        fill-opacity: 1;
         stroke: black;
         stroke-width: 1px;
+        fill: ${color || '#fff'};
+
         &:hover {
-          fill-opacity: 0.1;
+          fill-opacity: 0.15;
         }
       `}
     />

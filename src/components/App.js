@@ -46,7 +46,7 @@ const App = () => {
         `}
       />
       <Management />
-      <Tab tabs={odontogramTypes} keyName="odontogram">
+      <Tab tabs={odontogramTypes} keyName="types">
         {selected => (
           <Odontogram
             types={ODONTOGRAM_TYPES}

@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useContext, useCallback, memo } from 'react';
 import Surface from '/components/Tooth/Surface';
 import OdontogramContext from '/components/Management/OdontogramContext';
 import SURFACES from '/constants/surfaces';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+
+const SURFACES_KEY = SURFACES.reduce((keyName, current) => {
+  keyName += current.flag;
+  return keyName;
+}, '');
+
+const getColorWhenIsTooth = ({ odontogram, tooth, surface }) => {
+  const current = odontogram[tooth.nomenclature] || {};
+  const face = current[surface.flag] || {};
+
+  return face.color;
+};
 
 const Nomenclature = ({ nomenclature, x, y }) => (
   <span
@@ -24,8 +36,8 @@ const Nomenclature = ({ nomenclature, x, y }) => (
 const Tooth = props => {
   const { id, quadrant, position, tooth } = props;
   const quadrantKeys = quadrant.name.split('_');
-  const [, dispatch] = React.useContext(OdontogramContext);
-  const handleHovering = React.useCallback(
+  const [state, dispatch] = useContext(OdontogramContext);
+  const handleHovering = useCallback(
     hover => e => {
       const { target } = e;
       const dataset = target.parentNode.dataset;
@@ -41,6 +53,28 @@ const Tooth = props => {
       dispatch({ tooth, type: 'tooth' });
     },
     [],
+  );
+  const handleClick = useCallback(
+    _ => {
+      if (state.status.name) {
+        const { tooth, status } = state;
+        const odontogram = state.odontogram;
+        odontogram[tooth.nomenclature] = odontogram[tooth.nomenclature] || {};
+        const keyName = status.surface ? tooth.surface : SURFACES_KEY;
+
+        odontogram[tooth.nomenclature][keyName] = {
+          tooth: tooth.name,
+          quadrant: tooth.quadrant,
+          status: status.name,
+          color: status.color,
+        };
+
+        dispatch({ odontogram, type: 'odontogram' });
+      } else {
+        dispatch({ error: 'Status is empty', type: 'no-chosen' });
+      }
+    },
+    [state.odontogram, state.status, state.tooth],
   );
 
   return (
@@ -66,14 +100,24 @@ const Tooth = props => {
           cursor: pointer;
         `}
       >
-        {SURFACES.map((surface, index) => (
-          <Surface
-            key={index}
-            points={surface.points}
-            surface={surface.flag}
-            handleHovering={handleHovering}
-          />
-        ))}
+        {SURFACES.map((surface, index) => {
+          const color = getColorWhenIsTooth({
+            odontogram: state.odontogram,
+            tooth,
+            surface,
+          });
+
+          return (
+            <Surface
+              key={index}
+              points={surface.points}
+              surface={surface.flag}
+              handleHovering={handleHovering}
+              handleClick={handleClick}
+              color={color}
+            />
+          );
+        })}
       </svg>
       {position && (
         <Nomenclature nomenclature={tooth.nomenclature} x={20} y={2.5} />
@@ -82,4 +126,4 @@ const Tooth = props => {
   );
 };
 
-export default React.memo(Tooth);
+export default memo(Tooth);

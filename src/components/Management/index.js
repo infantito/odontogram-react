@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useCallback } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import Select from '/components/Control/Select';
 import Tab from '/components/Control/Tab';
+import Button from '/components/Control/Button';
 import OdontogramContext from '/components/Management/OdontogramContext';
 import OPERATIONS from '/constants/operations';
 import DIAGNOSIS from '/constants/diagnosis';
@@ -19,7 +20,7 @@ const tabs = OPERATIONS.map((operation, index) => ({
 }));
 
 const Management = props => {
-  const [state, dispatch] = React.useContext(OdontogramContext);
+  const [state, dispatch] = useContext(OdontogramContext);
   const {
     tooth: {
       name = 'xxxx',
@@ -29,12 +30,14 @@ const Management = props => {
     },
   } = state;
 
-  const handleChange = ({ target }) => {
+  const handleChange = useCallback(({ target }) => {
     const status = (tabs[state.tab].data || []).find(
       item => item.name === target.value,
     );
     dispatch({ status, type: 'status' });
-  };
+  }, []);
+
+  const handleClear = useCallback(_ => dispatch({ type: 'clear' }));
 
   return (
     <section>
@@ -64,14 +67,30 @@ const Management = props => {
         >{`Q${quadrant[0]}-${nomenclature}-${surface}`}</span>
       </h4>
       <Tab tabs={tabs} keyName="tab">
-        <Select
-          id="types"
-          data={collections[state.tab]}
-          selected={state.status}
-          handleChange={handleChange}
-          placeholder="Choose an option"
-        />
+        <React.Fragment>
+          <Select
+            id="types"
+            data={collections[state.tab]}
+            selected={state.status}
+            handleChange={handleChange}
+            placeholder="Choose an option"
+          />
+          <p
+            css={css`
+              font-size: 0.75rem;
+              font-weight: 600;
+              text-align: center;
+              font-style: italic;
+              color: #ff4b4bc7;
+              ${state.error ? 'padding: 0 0.5rem 0.5rem;' : ''}
+              margin: 0 auto;
+            `}
+          >
+            {state.error}
+          </p>
+        </React.Fragment>
       </Tab>
+      <Button handleClick={handleClear}>Reset</Button>
     </section>
   );
 };

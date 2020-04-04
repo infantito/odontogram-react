@@ -1,7 +1,4 @@
 import React from 'react';
-import OPERATIONS from '/constants/operations';
-import DIAGNOSIS from '/constants/diagnosis';
-import TREATMENTS from '/constants/treatments';
 import { ODONTOGRAM_TYPES } from '/constants/odontogram';
 
 const initialState = {
@@ -9,30 +6,40 @@ const initialState = {
     value: '',
     title: '',
   },
+  error: '',
   tab: 0,
-  odontogram: ODONTOGRAM_TYPES.length,
+  types: ODONTOGRAM_TYPES.length,
   tooth: {
     name: 'xxxx',
     nomenclature: 'XX',
     quadrant: 'X',
     surface: 'X',
   },
+  odontogram: {},
 };
 const reducer = (state, action) => {
   switch (action.type) {
     case 'status':
-      return { ...state, status: action.status };
+      return { ...state, status: action.status, error: '' };
+    case 'no-chosen':
+      return { ...state, error: action.error || "There's an error" };
     case 'tab':
       return {
         ...state,
         status: initialState.status,
         tooth: initialState.tooth,
         tab: action.tab,
+        odontogram: {},
+        error: '',
       };
+    case 'types':
+      return { ...state, error: '', types: action.types, odontogram: {} };
     case 'odontogram':
-      return { ...state, odontogram: action.odontogram };
+      return { ...state, odontogram: state.odontogram };
     case 'tooth':
       return { ...state, tooth: action.tooth };
+    case 'clear':
+      return { ...state, error: '', odontogram: initialState.odontogram };
     default:
       throw new Error(`That action type isn't supported.`);
   }
