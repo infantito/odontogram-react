@@ -40,7 +40,7 @@ const Management = props => {
     [state.tab],
   );
 
-  const handleClear = useCallback(_ => dispatch({ type: 'clear' }));
+  const handleClear = useCallback(_ => dispatch({ type: 'clear' }), []);
 
   return (
     <section>

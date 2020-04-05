@@ -39,7 +39,7 @@ const reducer = (state, action) => {
     case 'tooth':
       return { ...state, tooth: action.tooth };
     case 'clear':
-      return { ...state, error: '', odontogram: initialState.odontogram };
+      return { ...state, error: '', odontogram: {}, error: '' };
     default:
       throw new Error(`That action type isn't supported.`);
   }
