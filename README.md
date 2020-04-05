@@ -3,7 +3,7 @@
 > Built quadrants, diagnosis and treatments.
 > TODO: Save and load from history.
 
-✅ Check diagnosis and treatments json files.
+✅ Check the diagnosis and treatments from json files.
 
 ## What you'll
 
