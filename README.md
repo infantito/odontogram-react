@@ -5,7 +5,7 @@
 
 ✅ Check the diagnosis and treatments from json files.
 
-## What you'll
+## Nice to have
 
 * Node version >= 10
 * React 16.x - Hooks

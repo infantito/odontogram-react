@@ -7,6 +7,7 @@ import Tab from '/components/Control/Tab';
 import { ODONTOGRAM_TYPES } from '/constants/odontogram';
 import QUADRANTS from '/constants/quadrants';
 import { formatJoinId } from '/constants/utils';
+import Wallpaper from '/wallpaper.jpg';
 
 const odontogramTypes = formatJoinId(ODONTOGRAM_TYPES, 'amount', [
   { title: 'Mixed', amount: 0 },
@@ -42,6 +43,22 @@ const App = () => {
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            position: relative;
+
+            &:after {
+              content: '';
+              background-image: url(${Wallpaper});
+              background-repeat: no-repeat;
+              background-position: center center;
+              background-size: cover;
+              opacity: 0.25;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+              position: absolute;
+              z-index: -1;
+            }
           }
         `}
       />
